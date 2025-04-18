@@ -181,6 +181,10 @@ export interface Options {
   onCommitFinish?: () => void;
   onPaintStart?: (outlines: Array<Outline>) => void;
   onPaintFinish?: (outlines: Array<Outline>) => void;
+  /**
+   * Controls whether the outlines are shown on render.
+   */
+  disableOutline?: boolean;
 }
 
 export type MonitoringOptions = Pick<
@@ -316,6 +320,7 @@ export const ReactScanInternals: Internals = {
     onPaintFinish: undefined,
     // smoothlyAnimateOutlines: true,
     // trackUnnecessaryRenders: false,
+    disableOutline: false,
   }),
   onRender: null,
   scheduledOutlines: new Map(),
@@ -412,6 +417,13 @@ const validateOptions = (options: Partial<Options>): Partial<Options> => {
           errors.push(`- ${key} must be a function. Got "${value}"`);
         } else {
           validOptions[key] = value as (outlines: Array<Outline>) => void;
+        }
+        break;
+      case 'disableOutline':
+        if (typeof value !== 'boolean') {
+          errors.push(`- ${key} must be a boolean. Got "${value}"`);
+        } else {
+          validOptions[key] = value;
         }
         break;
       // case 'trackUnnecessaryRenders': {

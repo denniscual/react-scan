@@ -587,8 +587,11 @@ export const initReactScanInstrumentation = (setupToolbar: () => void) => {
       if (shouldFullyAbort) {
         return;
       }
-      if (!isOverlayPaused) {
-        // outlineFiber(fiber);
+      if (
+        !isOverlayPaused &&
+        !ReactScanInternals.options.value.disableOutline
+      ) {
+        outlineFiber(fiber);
       }
       if (ReactScanInternals.options.value.log) {
         // this can be expensive given enough re-renders
