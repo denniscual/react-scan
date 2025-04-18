@@ -580,6 +580,10 @@ export const start = () => {
 };
 
 const initToolbar = (showToolbar: boolean) => {
+  if (!IS_CLIENT) {
+    return;
+  }
+
   window.reactScanCleanupListeners?.();
 
   const cleanupTimingTracking = startTimingTracking();
